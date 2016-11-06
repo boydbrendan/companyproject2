@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Agency - AT&T Theme</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+     <!-- Yahoo Finance API -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <!-- Theme CSS -->
+    <link href="css/agency.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top" class="index">
+
+    <!-- Navigation -->
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">At&T</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#statistics">Statistics</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                  
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-lead-in">We Strive For Greatness!</div>
+                <div class="intro-heading">Welcome to AT&T</div>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Statistics Grid Section -->
+    <section id="statistics" class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <div id="chart_div" style="width: 400px; height: 200px;"></div>
+                </div>
+                <div class = "col-md-4" style="text-align:center;">
+                    <h2 class="section-heading">Statistics</h2>
+                    <h3 class="section-subheading text-muted">Our Current User Growth Over Verizon.</h3>
+                </div>
+                <div class = "col-md-4">
+                    <div id="chart_div2" style="width: 400px; height: 200px;"></div>
+                </div>
+           <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'AT&T Sales', 'Verizon Sales'],
+          ['2013',  800,      400],
+          ['2014',  1170,      460],
+          ['2015',  660,       1120],
+          ['2016',  1030,      540]
+        ]);
+
+        var options = {
+          title: 'AT&T vs. Verizon User Growth',
+          hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+
+        
+      }
+    </script>
+    <div id="chart_div" style="width: 400px; height: 200px;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+
+        function getData(dataRange) {
+
+        var dataArray = [
+            ['Date', 'Stock Value'],
+        ];
+
+        var BASE_URL = 'http://query.yahooapis.com/v1/public/yql?q=';
+        var yql_query;
+
+        if (dataRange === "Year") {
+            yql_query = 'select * from yahoo.finance.historicaldata where symbol = "T" and startDate = "2015-09-11" and endDate = "2016-9-10"';
+
+        } else if (dataRange === "halfyear") {
+            yql_query = 'select * from yahoo.finance.historicaldata where symbol = "T" and startDate = "2015-03-11" and endDate = "2016-9-10"';
+        };
+        var yql_query_str = encodeURI(BASE_URL+yql_query);
+        var query_str_final = yql_query_str + "&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
+
+          $.getJSON(query_str_final, function(data) {
+            var stockArray = data.query.results.quote;
+           
+            for (var i = 0; i < stockArray.length; i++) {
+                var currentObject = stockArray[i];
+                console.log(currentObject.Close);
+                //Push values of currentObject.date and currentObject.Close into dataArray
+                var pushedArray = [currentObject.Date, parseFloat(currentObject.Close)];
+                dataArray[i+1] = pushedArray;
+
+            }
+            console.log(dataArray);
+        // Create the data table.
+        var chartData = google.visualization.arrayToDataTable(dataArray);
+         var options = {
+          title: 'AT&T Stock Valaue',
+          hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0}
+        };
+        // Instantiate and draw out chart, passing in some options.
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
+        chart.draw(chartData, options);
+            return dataArray;
+        });
+      };
+    getData("Year");      
+    </script>
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">About</h2>
+                    <h3 class="section-subheading text-muted">At AT&T, we’re bringing it all together. We deliver advanced mobile services, next-generation TV, high-speed Internet and smart solutions for people and businesses. That’s why we stand alone as a fully integrated solution provider.
+
+Fast, highly secure and mobile connectivity – to everything on the Internet, everywhere, at every moment and on every device – is what drives us. It’s reflected in our mission:
+
+Connect people with their world, everywhere they live, work and play … and do it better than anyone else.
+
+So our customers can stay connected from nearly anywhere. It doesn’t matter if they’re driving home from work or traveling across the country or beyond.
+
+Customers want to enjoy their favorite movies, TV shows, music and sports on any screen. We’re the largest provider of pay TV in the United States and the world. So, we’re setting the standard for delivering video when, where and how customers want it.
+
+In the United States, we offer TV and wireless nationwide, plus a large high-speed Internet footprint. We offer a wide choice of Internet speeds to meet customers’ needs. With AT&T GigaPowerSM, customers in 25 markets can download an HD movie in 36 seconds, a TV episode in 3 seconds and 25 songs in 1 second. We plan to expand GigaPower speeds to 31 more metro areas. We also offer pay TV in 11 Latin American countries.
+
+We offer solutions that help businesses in every industry serve their customers better. We deliver advanced services to 3.5 million businesses on 6 continents. That includes nearly all of the Fortune 1000 as well as neighborhood businesses across the United States.
+
+Our high-speed mobile Internet network covers 365 million people and businesses across North America, including 51 million in Mexico. We also wirelessly connect cars, machines, shipping containers and more. It's all part of our leadership in what’s called the Internet of Things.
+
+And we never stop innovating. The brightest minds in the business are in our AT&T Labs and Foundry centers developing new technologies, apps, products and services.
+
+We envision a world where everything and everyone work together.</h3>
+                </div>
+                <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                 <h4>We envision
+                    <br>a world 
+                         <br>that works for you.</h4>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Modals -->
+    <!-- Use the modals below to showcase details about your portfolio projects! -->
+
+    <!-- Portfolio Modal 1 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2">
+                            <div class="modal-body">
+                                <!-- Project Details Go Here -->
+                                <h2>Project Name</h2>
+                                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                <img class="img-responsive img-centered" src="img/portfolio/roundicons-free.png" alt="">
+                                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                <p>
+                                    <strong>Want these icons in this portfolio item sample?</strong>You can download 60 of them for free, courtesy of <a href="https://getdpd.com/cart/hoplink/18076?referrer=bvbo4kax5k8ogc">RoundIcons.com</a>, or you can purchase the 1500 icon set <a href="https://getdpd.com/cart/hoplink/18076?referrer=bvbo4kax5k8ogc">here</a>.</p>
+                                <ul class="list-inline">
+                                    <li>Date: July 2014</li>
+                                    <li>Client: Round Icons</li>
+                                    <li>Category: Graphic Design</li>
+                                </ul>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio Modal 2 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2">
+                            <div class="modal-body">
+                                <h2>Project Heading</h2>
+                                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                <img class="img-responsive img-centered" src="img/portfolio/startup-framework-preview.png" alt="">
+                                <p><a href="http://designmodo.com/startup/?u=787">Startup Framework</a> is a website builder for professionals. Startup Framework contains components and complex blocks (PSD+HTML Bootstrap themes and templates) which can easily be integrated into almost any design. All of these components are made in the same style, and can easily be integrated into projects, allowing you to create hundreds of solutions for your future projects.</p>
+                                <p>You can preview Startup Framework <a href="http://designmodo.com/startup/?u=787">here</a>.</p>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio Modal 3 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2">
+                            <div class="modal-body">
+                                <!-- Project Details Go Here -->
+                                <h2>Project Name</h2>
+                                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                <img class="img-responsive img-centered" src="img/portfolio/treehouse-preview.png" alt="">
+                                <p>Treehouse is a free PSD web template built by <a href="https://www.behance.net/MathavanJaya">Mathavan Jaya</a>. This is bright and spacious design perfect for people or startup companies looking to showcase their apps or other projects.</p>
+                                <p>You can download the PSD template in this portfolio sample item at <a href="http://freebiesxpress.com/gallery/treehouse-free-psd-web-template/">FreebiesXpress.com</a>.</p>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio Modal 4 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2">
+                            <div class="modal-body">
+                                <!-- Project Details Go Here -->
+                                <h2>Project Name</h2>
+                                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                <img class="img-responsive img-centered" src="img/portfolio/golden-preview.png" alt="">
+                                <p>Start Bootstrap's Agency theme is based on Golden, a free PSD website template built by <a href="https://www.behance.net/MathavanJaya">Mathavan Jaya</a>. Golden is a modern and clean one page web template that was made exclusively for Best PSD Freebies. This template has a great portfolio, timeline, and meet your team sections that can be easily modified to fit your needs.</p>
+                                <p>You can download the PSD template in this portfolio sample item at <a href="http://freebiesxpress.com/gallery/golden-free-one-page-web-template/">FreebiesXpress.com</a>.</p>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio Modal 5 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2">
+                            <div class="modal-body">
+                                <!-- Project Details Go Here -->
+                                <h2>Project Name</h2>
+                                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                <img class="img-responsive img-centered" src="img/portfolio/escape-preview.png" alt="">
+                                <p>Escape is a free PSD web template built by <a href="https://www.behance.net/MathavanJaya">Mathavan Jaya</a>. Escape is a one page web template that was designed with agencies in mind. This template is ideal for those looking for a simple one page solution to describe your business and offer your services.</p>
+                                <p>You can download the PSD template in this portfolio sample item at <a href="http://freebiesxpress.com/gallery/escape-one-page-psd-web-template/">FreebiesXpress.com</a>.</p>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio Modal 6 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2">
+                            <div class="modal-body">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div> class="row">
+            <div> class="col-md-12>
+                <p> id="change"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="js/agency.min.js"></script>
+
+
+</html>
